@@ -1,14 +1,3 @@
-
-## main.py
-```python
-"""
-HW02 — Metro Train Cleanup (Linked List Filter)
-
-Implement a singly linked list Node class and a function remove_cars(head, target)
-that removes all nodes with value == target and returns the new head.
-"""
-
-
 class Node:
     """
     Simple singly linked list node.
@@ -18,11 +7,8 @@ class Node:
     """
 
     def __init__(self, value, next=None):
-        # TODO: store value and next on the instance
-        # Example:
-        # self.value = value
-        # self.next = next
-        pass
+        self.value = value
+        self.next = next
 
 
 def remove_cars(head, target):
@@ -33,29 +19,26 @@ def remove_cars(head, target):
     :param target: value to remove from the list
     :return: new head Node (or None if list becomes empty)
     """
-    # TODO (8 Steps of Coding):
-    # 1. Re-read the problem and examples.
-    # 2. Re-phrase the task (remove certain cars from a train).
-    # 3. Identify inputs, outputs, and helper pointers (head, current, previous).
-    # 4. Break down handling of head nodes vs middle nodes.
-    # 5. Write pseudocode for updating .next pointers.
-    # 6. Implement pointer updates in Python.
-    # 7. Debug with small hand-drawn lists.
-    # 8. Confirm one full pass only (O(N)), and constant extra space.
-    raise NotImplementedError("Implement remove_cars and Node in main.py")
 
+    # Step 1: Remove matching nodes at the head
+    while head is not None and head.value == target:
+        head = head.next
 
-if __name__ == "__main__":
-    # Optional manual test
-    # Example train: 1 -> 2 -> 2 -> 3, remove cars with ID 2
-    n4 = Node(3)
-    n3 = Node(2, n4)
-    n2 = Node(2, n3)
-    n1 = Node(1, n2)
+    # After removing head matches, if list becomes empty
+    if head is None:
+        return None
 
-    new_head = remove_cars(n1, 2)
-    curr = new_head
-    while curr is not None:
-        print(curr.value, end=" ")
-        curr = curr.next
-    print()
+    # Step 2: Process the rest using prev/current pointers
+    prev = head
+    current = head.next
+
+    while current is not None:
+        if current.value == target:
+            # Skip the current node
+            prev.next = current.next
+        else:
+            # Move prev forward only if current is kept
+            prev = current
+        current = current.next
+
+    return head
